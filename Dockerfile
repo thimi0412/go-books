@@ -7,5 +7,6 @@ ENV GO111MODULE=on
 
 COPY . /go/src/app/
 WORKDIR /go/src/app
+ENV ENV development
 
 CMD ["./scripts/start_app.sh"]
