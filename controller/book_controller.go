@@ -27,6 +27,20 @@ func (bc BookController) Index(c *gin.Context) {
 	}
 }
 
+func (bc BookController) Get(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	var bs service.BookService
+	p, err := bs.Get(id)
+
+	if err != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+		log.Println(err)
+	} else {
+		c.JSON(http.StatusOK, p)
+	}
+}
+
 func (bc BookController) Create(c *gin.Context) {
 	var json service.Parameter
 	if err := c.ShouldBindJSON(&json); err != nil {

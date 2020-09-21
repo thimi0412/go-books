@@ -40,6 +40,18 @@ func (bs *BookService) Search(title string, category int, author string) ([]Book
 	return book, nil
 }
 
+func (bs *BookService) Get(id int) (Book, error) {
+	db := db.Connection()
+	defer db.Close()
+	var book Book
+
+	if err := db.First(&book, id).Error; err != nil {
+		log.Println(err)
+		return book, err
+	}
+	return book, nil
+}
+
 func (bs *BookService) Create(title string, category int, author string) (Book, error) {
 	db := db.Connection()
 	defer db.Close()
