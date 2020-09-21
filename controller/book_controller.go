@@ -46,3 +46,24 @@ func (bc BookController) Create(c *gin.Context) {
 		}
 	}
 }
+
+func (bc BookController) Update(c *gin.Context) {
+	var json service.Parameter
+	if err := c.ShouldBindJSON(&json); err != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+		log.Println(err)
+	} else {
+		id, _ := strconv.Atoi(c.Param("id"))
+		title := json.Title
+		category := json.Category
+		author := json.Author
+
+		var bs service.BookService
+		if p, err := bs.Update(id, title, category, author); err != nil {
+			c.AbortWithStatus(http.StatusNotFound)
+			log.Println(err)
+		} else {
+			c.JSON(http.StatusOK, p)
+		}
+	}
+}

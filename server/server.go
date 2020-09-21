@@ -22,6 +22,7 @@ func router() *gin.Engine {
 		ctrl := controller.BookController{}
 		u.GET("", ctrl.Index)
 		u.POST("", ctrl.Create)
+		u.PUT("/:id", ctrl.Update)
 	}
 	return r
 

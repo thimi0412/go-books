@@ -52,3 +52,16 @@ func (bs *BookService) Create(title string, category int, author string) (Book, 
 	}
 	return book, nil
 }
+
+func (bs *BookService) Update(id int, title string, category int, author string) (Book, error) {
+	db := db.Connection()
+	defer db.Close()
+	var book Book
+
+	db.First(&book, id)
+	if err := db.Model(&book).Update(Book{Title: title, Category: category, Author: author}).Error; err != nil {
+		log.Println(err)
+		return book, err
+	}
+	return book, nil
+}
